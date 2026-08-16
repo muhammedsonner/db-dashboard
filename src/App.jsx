@@ -1,29 +1,20 @@
 import React, { useEffect } from "react";
-import { supabase } from "./supabase";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-  useEffect(() => {
-    const veritabaniTest = async () => {
-      console.log("Supabase'e bağlanılıyor...");
-
-      const { data, error } = await supabase
-        .from("kritik_stok_kontrol")
-        .select("*");
-
-      if (error) {
-        console.log("Bağlantı Hatası", error.message);
-      } else {
-        console.log("Başarılı! Gelen Veri: ", data);
-      }
-    };
-
-    veritabaniTest();
-  }, []);
-
   return (
-    <div className="bg-amber-300 font-bold text-4xl underline">
-      Hello World!
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* Tüm sayfaları saracak olan ana şablon */}
+        <Route path="/" element={<Layout />}>
+          {/* index : Layout'un içindeki <Outlet/> kısmında varsayılan olarak açılacak */}
+          <Route index element={<Dashboard />} />
+          {/* Sayfaların yerleri */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
